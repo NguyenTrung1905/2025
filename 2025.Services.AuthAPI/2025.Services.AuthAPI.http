@@ -1,0 +1,6 @@
+@_2025.Services.AuthAPI_HostAddress = http://localhost:5050
+
+GET {{_2025.Services.AuthAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
