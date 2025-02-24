@@ -12,10 +12,12 @@ namespace _2025.Services.AuthAPI.Controllers
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
+        private readonly IHelloService _helloService;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, IHelloService helloService)
         {
             _logger = logger;
+            _helloService = helloService;
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
@@ -35,6 +37,12 @@ namespace _2025.Services.AuthAPI.Controllers
                 Summary = Summaries[Random.Shared.Next(Summaries.Length)]
             })
             .ToArray();
+        }
+
+        [HttpGet("say-Hello")]
+        public string SayHello([FromQuery] string  name)
+        {
+            return _helloService.sayHello(name);
         }
     }
 }
