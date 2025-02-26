@@ -1,5 +1,6 @@
 using _2025.Services.AuthAPI;
 using _2025.Services.AuthAPI.Core;
+using _2025.Services.AuthAPI.Services;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -16,6 +17,7 @@ builder.Services.AddDbContextPool<IdentityContext>(options =>
 });
 
 // Add services to the container.
+builder.Services.AddSingleton<AppSettings>();
 builder.Services.AddScoped<IHelloService, HelloService>();
 
 builder.Services.AddControllers();

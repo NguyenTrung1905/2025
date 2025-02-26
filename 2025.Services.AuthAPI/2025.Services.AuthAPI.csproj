@@ -27,7 +27,6 @@
     <Folder Include="Core\Enum\" />
     <Folder Include="Core\Helper\" />
     <Folder Include="DTO\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>
