@@ -1,4 +1,5 @@
-﻿using System;
+﻿using _2025.Services.AuthAPI.Core.Enum;
+using System;
 using System.Collections.Generic;
 
 namespace _2025.Services.AuthAPI.Core.Entities;
@@ -19,9 +20,9 @@ public partial class User
 
     public string? Title { get; set; }
 
-    public int Status { get; set; }
+    public UserStatusEnum Status { get; set; }
 
-    public int? Role { get; set; }
+    public RoleEnum Role { get; set; }
 
     public DateTime CreatedOn { get; set; }
 
