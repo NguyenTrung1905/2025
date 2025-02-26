@@ -1,10 +1,20 @@
 using _2025.Services.AuthAPI;
+using _2025.Services.AuthAPI.Core;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
+
+AppContext.SetSwitch("Npgsql.EnablelagacyTimestampBehavior", true); 
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.UseSerilog((context, configuration) =>
     configuration.ReadFrom.Configuration(context.Configuration));
+
+builder.Services.AddDbContextPool<IdentityContext>(options =>
+{
+    options.UseNpgsql(builder.Configuration.GetConnectionString("Identity"));
+});
+
 // Add services to the container.
 builder.Services.AddScoped<IHelloService, HelloService>();
 
