@@ -1,4 +1,6 @@
-﻿namespace _2025.Services.AuthAPI.Services
+﻿using _2025.Services.AuthAPI.DTO;
+
+namespace _2025.Services.AuthAPI.Services
 {
     public class AppSettings
     {
@@ -22,6 +24,8 @@
             return _configuration.GetSection(key).Get<T>();
         }
 
-        public List<int> SampleConfig => GetT<List<int>>("SampleConfig");
+        //public List<int> SampleConfig => GetT<List<int>>("SampleConfig");
+
+        public AdminAccountDTO AdminAccount => GetT<AdminAccountDTO>("AdminAccount");
     }
 }

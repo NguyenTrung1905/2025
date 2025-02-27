@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link href="../css/login.css" rel="stylesheet" />
+    <link href="../css/toastify.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="login-container">
+        <h2>Welcome back!</h2>
+        <p>Enter your Credentials to access your account</p>
+        <form method="post">
+            <label for="email">Email address</label>
+            <input type="email" name="Email" id="email" placeholder="Enter your email" required>
+
+            <label for="password">Password</label>
+            <div class="password-container">
+                <input type="password" name="Password" id="password" placeholder="Password" required>
+            </div>
+
+            <button type="submit" class="login-button">Login</button>
+        </form>
+
+        <p style="width: 100%; text-align: center; margin-top: 16px;">Don't have an account? <a href="signup.html">Sign up</a></p>
+
+    </div>
+</body>
+
+<script src="../js/toastify-js.js"></script>
+
+</html>

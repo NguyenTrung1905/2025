@@ -23,11 +23,11 @@ namespace _2025.Services.AuthAPI.Controllers
             _appSettings = appSettings;
         }
 
-        [HttpGet("get-config")]
-        public List<int> GetConfig()
-        {
-            return _appSettings.SampleConfig;
-        }
+        //[HttpGet("get-config")]
+        //public List<int> GetConfig()
+        //{
+        //    return _appSettings.SampleConfig;
+        //}
 
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()

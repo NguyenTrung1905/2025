@@ -19,6 +19,8 @@ builder.Services.AddDbContextPool<IdentityContext>(options =>
 // Add services to the container.
 builder.Services.AddSingleton<AppSettings>();
 builder.Services.AddScoped<IHelloService, HelloService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IInitService, InitService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -26,6 +28,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+var scope = app.Services.GetService<IServiceScopeFactory>().CreateScope();
+var initService = scope.ServiceProvider.GetService<IInitService>();
+
+initService.InitFirstUser();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

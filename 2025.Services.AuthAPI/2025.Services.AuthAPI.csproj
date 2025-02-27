@@ -23,8 +23,6 @@
 
   <ItemGroup>
     <Folder Include="Core\Entities\" />
-    <Folder Include="Core\Helper\" />
-    <Folder Include="DTO\" />
   </ItemGroup>
 
 </Project>
