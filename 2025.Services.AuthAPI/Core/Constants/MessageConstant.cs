@@ -9,5 +9,10 @@
             public const string ERROR_HAPPEND = "An error occurred, please contact the admin or try again later!";
             public const string MISSING_PARAM = "Missing input parameters. Please check again!"; //Thieu tham so dau vao
         }
+
+        public static class UserMessage
+        {
+            public const string LOGIN_FAIL = "Login failed! Please check your email or password again!";
+        }
     }
 }

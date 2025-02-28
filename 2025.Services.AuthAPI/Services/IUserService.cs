@@ -1,20 +1,26 @@
-﻿using _2025.Services.AuthAPI.Core.Entities;
+﻿using _2025.Services.AuthAPI.Core;
+using _2025.Services.AuthAPI.Core.Entities;
 using _2025.Services.AuthAPI.Core.Helper;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 using System.Text;
+using static _2025.Services.AuthAPI.Core.Constants.MessageConstant;
 
 namespace _2025.Services.AuthAPI.Services
 {
     public interface IUserService
     {
+        Task<User> GetByEmail(string email);
         User SetPassword(User user, string password);
+        byte[] CombineSaltAndPassword(byte[] saltBytes, string password);
     }
 
     public class UserService : IUserService
     {
-        public UserService() 
+        private IdentityContext _identityContext;
+        public UserService(IdentityContext identityContext) 
         {
-                    
+            identityContext = _identityContext;
         }
         public User SetPassword(User user, string password)
         {
@@ -41,10 +47,22 @@ namespace _2025.Services.AuthAPI.Services
             return CryptoHelper.HashPassword(Encoding.Unicode.GetString(combinedBytes));
         }
 
-        private byte[] CombineSaltAndPassword(byte[] saltBytes, string password)
+        public byte[] CombineSaltAndPassword(byte[] saltBytes, string password)
         {
             var passwordBytes = Encoding.Unicode.GetBytes(password);
             return saltBytes.Concat(passwordBytes).ToArray();
+        }
+
+        public Task<User> GetByEmail(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                throw new ApplicationException(CommonMessage.MISSING_PARAM);
+            }
+
+            email = email.Trim().ToLower();
+
+            return _identityContext.Users.FirstOrDefaultAsync(t => t.Email.ToLower() == email && !t.Delete && t.Status == Core.Enum.UserStatusEnum.Active);
         }
     }   
 }
