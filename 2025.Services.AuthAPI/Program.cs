@@ -4,7 +4,7 @@ using _2025.Services.AuthAPI.Services;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
-AppContext.SetSwitch("Npgsql.EnablelagacyTimestampBehavior", true); 
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true); 
 
 var builder = WebApplication.CreateBuilder(args);
 

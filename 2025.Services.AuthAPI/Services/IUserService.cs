@@ -18,9 +18,14 @@ namespace _2025.Services.AuthAPI.Services
     public class UserService : IUserService
     {
         private IdentityContext _identityContext;
-        public UserService(IdentityContext identityContext) 
-        {
-            identityContext = _identityContext;
+
+        public UserService(IdentityContext identityContext)
+        {/*Khắc phục lỗi identity trả về null, bởi ở đây, biến _identityContext (là thành viên của lớp) không được khởi tạo vì bạn lại gán giá trị của nó cho tham số identityContext
+          *thay vì ngược lại. Do đó, sau khi constructor chạy, _identityContext vẫn là null, dẫn đến lỗi khi sử dụng sau này.
+          Cách khắc phục: đổi từ identityContext = _identityContext; thành  _identityContext = identityContext;
+          Việc này đảm bảo rằng đối tượng IdentityContext được DI (Dependency Injection) tiêm vào được gán cho biến _identityContext của lớp, từ đó khi gọi các phương thức như 
+          GetByEmail thì _identityContext không còn là null.*/
+            _identityContext = identityContext;
         }
         public User SetPassword(User user, string password)
         {
@@ -60,7 +65,7 @@ namespace _2025.Services.AuthAPI.Services
                 throw new ApplicationException(CommonMessage.MISSING_PARAM);
             }
 
-            // Kiểm tra _identityContext có null hay không
+            //Kiểm tra _identityContext có null hay không
             if (_identityContext == null)
             {
                 throw new ApplicationException("Identity context is not initialized.");
@@ -68,7 +73,7 @@ namespace _2025.Services.AuthAPI.Services
 
             email = email.Trim().ToLower();
 
-            return _identityContext.Users.FirstOrDefaultAsync(t => t.Email.ToLower() == email && !t.Delete && t.Status == Core.Enum.UserStatusEnum.Active);
+            return _identityContext.Users.FirstOrDefaultAsync(t=> t.Email.ToLower() == email && !t.Delete && t.Status == Core.Enum.UserStatusEnum.Active);
         }
     }   
 }

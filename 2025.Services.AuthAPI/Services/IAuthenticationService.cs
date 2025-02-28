@@ -21,7 +21,7 @@ namespace _2025.Services.AuthAPI.Services
         private IUserService _userService;
         private AppSettings _appSettings;
 
-        public AuthenticationService( IdentityContext identityContext, IUserService userService, AppSettings appSettings)
+        public AuthenticationService(IdentityContext identityContext, IUserService userService, AppSettings appSettings)
         {
             _identityContext = identityContext;
             _userService = userService;
