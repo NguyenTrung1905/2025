@@ -60,6 +60,12 @@ namespace _2025.Services.AuthAPI.Services
                 throw new ApplicationException(CommonMessage.MISSING_PARAM);
             }
 
+            // Kiểm tra _identityContext có null hay không
+            if (_identityContext == null)
+            {
+                throw new ApplicationException("Identity context is not initialized.");
+            }
+
             email = email.Trim().ToLower();
 
             return _identityContext.Users.FirstOrDefaultAsync(t => t.Email.ToLower() == email && !t.Delete && t.Status == Core.Enum.UserStatusEnum.Active);
