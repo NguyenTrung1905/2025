@@ -1,3 +1,4 @@
+using _2025.Web.TaskManager.Services;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,6 +8,9 @@ builder.Host.UseSerilog((context, configuration) =>
 
 
 // Add services to the container.
+builder.Services.AddSingleton<AppSettings>();
+builder.Services.AddScoped<IAuthApiService, AuthApiService>();
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

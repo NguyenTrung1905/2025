@@ -20,7 +20,7 @@ namespace _2025.Services.AuthAPI.Services
         private IdentityContext _identityContext;
 
         public UserService(IdentityContext identityContext)
-        {/*Khắc phục lỗi identity trả về null, bởi ở đây, biến _identityContext (là thành viên của lớp) không được khởi tạo vì bạn lại gán giá trị của nó cho tham số identityContext
+        {/*Khắc phục lỗi identity trả về null, bởi ở đây, biến _identityContext (là thành viên của lớp) không được khởi tạo vì ta lại gán giá trị của nó cho tham số identityContext
           *thay vì ngược lại. Do đó, sau khi constructor chạy, _identityContext vẫn là null, dẫn đến lỗi khi sử dụng sau này.
           Cách khắc phục: đổi từ identityContext = _identityContext; thành  _identityContext = identityContext;
           Việc này đảm bảo rằng đối tượng IdentityContext được DI (Dependency Injection) tiêm vào được gán cho biến _identityContext của lớp, từ đó khi gọi các phương thức như 
