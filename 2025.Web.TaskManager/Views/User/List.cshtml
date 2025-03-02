@@ -1,0 +1,188 @@
+﻿
+@{
+    ViewData["Title"] = "List User";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Content -->
+<div class="content">
+    <div class="header">
+        <form id="SearchUserForm" action="/user/list" method="get">
+            <input id="Keyword" name="Keyword" type="text" placeholder="Search account" onblur="SearchUser()">
+        </form>
+        <button onclick="UserDetail(0)">Add new</button>
+    </div>
+
+    <div class="item-list">
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Title</th>
+                    <th>Status</th>
+                    <th>Role</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>21</td>
+                    <td>Full Name<br><small>email@gmail.com</small></td>
+                    <td>Title</td>
+                    <td><span class="status active">Active</span></td>
+                    <td>User</td>
+                    <td><button class="edit-btn" onclick="UserDetail(21)">Edit</button></td>
+                </tr>
+                <tr>
+                    <td>22</td>
+                    <td>Full Name<br><small>email@gmail.com</small></td>
+                    <td>Title</td>
+                    <td><span class="status active">Active</span></td>
+                    <td>Admin</td>
+                    <td><User class="edit-btn" onclick="UserDetail(22)">Edit</button></td>
+                </tr>
+                <tr>
+                    <td>23</td>
+                    <td>Full Name<br><small>email@gmail.com</small></td>
+                    <td>Title</td>
+                    <td><span class="status active">Active</span></td>
+                    <td>Admin</td>
+                    <td><button class="edit-btn" onclick="UserDetail(23)">Edit</button></td>
+                </tr>
+                <tr>
+                    <td>24</td>
+                    <td>Full Name<br><small>email@gmail.com</small></td>
+                    <td>Title</td>
+                    <td><span class="status active">Active</span></td>
+                    <td>Admin</td>
+                    <td><button class="edit-btn" onclick="UserDetail(24)">Edit</button></td>
+                </tr>
+                <tr>
+                    <td>25</td>
+                    <td>Full Name<br><small>email@gmail.com</small></td>
+                    <td>Title</td>
+                    <td><span class="status active">Active</span></td>
+                    <td>Admin</td>
+                    <td><button class="edit-btn" onclick="UserDetail(25)">Edit</button></td>
+                </tr>
+                <tr>
+                    <td>26</td>
+                    <td>Full Name<br><small>email@gmail.com</small></td>
+                    <td>Title</td>
+                    <td><span class="status active">Active</span></td>
+                    <td>Admin</td>
+                    <td><button class="edit-btn" onclick="UserDetail(26)">Edit</button></td>
+                </tr>
+                <tr>
+                    <td>27</td>
+                    <td>Full Name<br><small>email@gmail.com</small></td>
+                    <td>Title</td>
+                    <td><span class="status active">Active</span></td>
+                    <td>Admin</td>
+                    <td><button class="edit-btn" onclick="UserDetail(27)">Edit</button></td>
+                </tr>
+                <tr>
+                    <td>28</td>
+                    <td>Full Name<br><small>email@gmail.com</small></td>
+                    <td>Title</td>
+                    <td><span class="status active">Active</span></td>
+                    <td>Admin</td>
+                    <td><button class="edit-btn" onclick="UserDetail(28)">Edit</button></td>
+                </tr>
+                <tr>
+                    <td>29</td>
+                    <td>Full Name<br><small>email@gmail.com</small></td>
+                    <td>Title</td>
+                    <td><span class="status active">Active</span></td>
+                    <td>Admin</td>
+                    <td><button class="edit-btn" onclick="UserDetail(29)">Edit</button></td>
+                </tr>
+                <tr>
+                    <td>30</td>
+                    <td>Full Name<br><small>email@gmail.com</small></td>
+                    <td>Title</td>
+                    <td><span class="status active">Active</span></td>
+                    <td>Admin</td>
+                    <td><button class="edit-btn" onclick="UserDetail(30)">Edit</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination">
+        <button onclick="ChangePage(2)">← Previous</button>
+        <button onclick="ChangePage(1)" class="">1</button>
+        <button onclick="ChangePage(2)" class="">2</button>
+        <button onclick="ChangePage(3)" class="active">3</button>
+        <button onclick="ChangePage(4)" class="">4</button>
+        <button onclick="ChangePage(5)" class="">5</button>
+        <button onclick="ChangePage(6)" class="">6</button>
+        <button onclick="ChangePage(7)" class="">7</button>
+        <button onclick="ChangePage(4)">Next →</button>
+    </div>
+</div>
+
+<div id="UserPopup" class="modal">
+    <div class="popup popup-overlay">
+        <header>
+            <h2 id="PopupTitle"></h2>
+            <button class="close-btn" onclick="ClosePopup()">
+                &times;
+            </button>
+        </header>
+        <form id="SaveUserForm" action="/user/save" method="post">
+            <input hidden type="number" id="Id" name="Id" value="0" />
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="FullName">Full Name</label>
+                    <input style="width: 100%" type="text" id="FullName" name="FullName" value="" />
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="Name">User Name <span style="color:red">(*)</span></label>
+                    <input type="text" id="UserName" name="UserName" value="" />
+                </div>
+                <div class="form-group">
+                    <label for="Email">Email <span style="color:red">(*)</span></label>
+                    <input type="Email" id="Email" name="Email" value="" />
+                </div>
+            </div>
+            <div id="PasswordSection" class="form-row">
+                <div class="form-group">
+                    <label for="Password">Password <span style="color:red">(*)</span></label>
+                    <input style="width: 100%" type="text" id="Password" name="Password" value="" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="Title">Title</label>
+                <textarea id="Title" name="Title"></textarea>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="Status">Status</label>
+                    <select id="Status" name="Status">
+                        <option value="1">Active</option>
+                        <option value="0">Deactive</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="Role">Role</label>
+                    <select id="Role" name="Role">
+                        <option value="1">Admin</option>
+                        <option value="0">User</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+        <footer>
+            <button class="btn-cancel" onclick="ClosePopup()">Cancel</button>
+            <button type="submit" form="SaveUserForm" class="btn-save">Save</button>
+        </footer>
+    </div>
+</div>
+
+<script>
+

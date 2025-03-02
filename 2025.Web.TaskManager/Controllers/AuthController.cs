@@ -23,6 +23,18 @@ namespace _2025.Web.TaskManager.Controllers
             return View();
         }
 
+        [HttpGet]
+        public IActionResult SignUp()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
+
         [HttpPost]
         public async Task<IActionResult> Login(LogonDTO model)
         {

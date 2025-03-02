@@ -1,0 +1,462 @@
+﻿
+@{
+    ViewData["Title"] = "List Task";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Content -->
+<div class="content">
+    <div class="header">
+        <form id="SearchTaskForm" action="/taskitem/list" method="get">
+            <div style="display: flex; gap: 8px;">
+                <div>
+                    <span>Status:</span>
+                    <select id="SearchStatus" name="Status" onchange="SearchTaskItem()">
+                        <option>All tasks</option>
+                        <option value="1">Pending</option>
+                        <option value="2">InProgress</option>
+                        <option value="3">Finished</option>
+                        <option value="0">Canceled</option>
+                    </select>
+                </div>
+                <input type="text" id="Keyword" name="Keyword" placeholder="Search task" onblur="SearchTaskItem()">
+            </div>
+        </form>
+        <button onclick="Edit(0)">Add new</button>
+    </div>
+
+    <div class="item-list">
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Task</th>
+                    <th>Status</th>
+                    <th>Start date</th>
+                    <th>End date</th>
+                    <th>Date created</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>11</td>
+                    <td>Task 1</td>
+                    <td><span class="status pending">Pending</span></td>
+                    <td>21/11/2024</td>
+                    <td>23/11/2024</td>
+                    <td>22/11/2024</td>
+                    <td>
+                        <button class="view-detail-btn" onclick="ViewDetail(18)">View detail</button>
+                        <button class="edit-btn" onclick="Edit(18)">Edit detail</button>
+                        <button class="clone-btn" onclick="Clone(18)">Clone</button>
+                        <button class="delete-btn" onclick="OpenDeletePopup(18)">Delete</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>12</td>
+                    <td>Task 2</td>
+                    <td><span class="status inprogress">InProgress</span></td>
+                    <td>21/11/2024</td>
+                    <td>23/11/2024</td>
+                    <td>22/11/2024</td>
+                    <td>
+                        <button class="view-detail-btn" onclick="ViewDetail(17)">View detail</button>
+                        <button class="edit-btn" onclick="Edit(17)">Edit detail</button>
+                        <button class="clone-btn" onclick="Clone(17)">Clone</button>
+                        <button class="delete-btn" onclick="OpenDeletePopup(17)">Delete</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>13</td>
+                    <td>Task 3</td>
+                    <td><span class="status finished">Finished</span></td>
+                    <td>21/11/2024</td>
+                    <td>23/11/2024</td>
+                    <td>22/11/2024</td>
+                    <td>
+                        <button class="view-detail-btn" onclick="ViewDetail(16)">View detail</button>
+                        <button class="edit-btn" onclick="Edit(16)">Edit detail</button>
+                        <button class="clone-btn" onclick="Clone(16)">Clone</button>
+                        <button class="delete-btn" onclick="OpenDeletePopup(16)">Delete</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>14</td>
+                    <td>Task 4</td>
+                    <td><span class="status canceled">Canceled</span></td>
+                    <td>21/11/2024</td>
+                    <td>23/11/2024</td>
+                    <td>22/11/2024</td>
+                    <td>
+                        <button class="view-detail-btn" onclick="ViewDetail(15)">View detail</button>
+                        <button class="edit-btn" onclick="Edit(15)">Edit detail</button>
+                        <button class="clone-btn" onclick="Clone(15)">Clone</button>
+                        <button class="delete-btn" onclick="OpenDeletePopup(15)">Delete</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>15</td>
+                    <td>Task 5</td>
+                    <td><span class="status pending">Pending</span></td>
+                    <td>21/11/2024</td>
+                    <td>23/11/2024</td>
+                    <td>22/11/2024</td>
+                    <td>
+                        <button class="view-detail-btn" onclick="ViewDetail(14)">View detail</button>
+                        <button class="edit-btn" onclick="Edit(14)">Edit detail</button>
+                        <button class="clone-btn" onclick="Clone(14)">Clone</button>
+                        <button class="delete-btn" onclick="OpenDeletePopup(14)">Delete</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>16</td>
+                    <td>Task 6</td>
+                    <td><span class="status pending">Pending</span></td>
+                    <td>21/11/2024</td>
+                    <td>23/11/2024</td>
+                    <td>22/11/2024</td>
+                    <td>
+                        <button class="view-detail-btn" onclick="ViewDetail(13)">View detail</button>
+                        <button class="edit-btn" onclick="Edit(13)">Edit detail</button>
+                        <button class="clone-btn" onclick="Clone(13)">Clone</button>
+                        <button class="delete-btn" onclick="OpenDeletePopup(13)">Delete</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>17</td>
+                    <td>Task 7</td>
+                    <td><span class="status pending">Pending</span></td>
+                    <td>21/11/2024</td>
+                    <td>23/11/2024</td>
+                    <td>22/11/2024</td>
+                    <td>
+                        <button class="view-detail-btn" onclick="ViewDetail(12)">View detail</button>
+                        <button class="edit-btn" onclick="Edit(12)">Edit detail</button>
+                        <button class="clone-btn" onclick="Clone(12)">Clone</button>
+                        <button class="delete-btn" onclick="OpenDeletePopup(12)">Delete</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>18</td>
+                    <td>Task 8</td>
+                    <td><span class="status pending">Pending</span></td>
+                    <td>21/11/2024</td>
+                    <td>23/11/2024</td>
+                    <td>22/11/2024</td>
+                    <td>
+                        <button class="view-detail-btn" onclick="ViewDetail(11)">View detail</button>
+                        <button class="edit-btn" onclick="Edit(11)">Edit detail</button>
+                        <button class="clone-btn" onclick="Clone(11)">Clone</button>
+                        <button class="delete-btn" onclick="OpenDeletePopup(11)">Delete</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>19</td>
+                    <td>Task 9</td>
+                    <td><span class="status pending">Pending</span></td>
+                    <td>21/11/2024</td>
+                    <td>23/11/2024</td>
+                    <td>22/11/2024</td>
+                    <td>
+                        <button class="view-detail-btn" onclick="ViewDetail(10)">View detail</button>
+                        <button class="edit-btn" onclick="Edit(10)">Edit detail</button>
+                        <button class="clone-btn" onclick="Clone(10)">Clone</button>
+                        <button class="delete-btn" onclick="OpenDeletePopup(10)">Delete</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>20</td>
+                    <td>Task 10</td>
+                    <td><span class="status pending">Pending</span></td>
+                    <td>21/11/2024</td>
+                    <td>23/11/2024</td>
+                    <td>22/11/2024</td>
+                    <td>
+                        <button class="view-detail-btn" onclick="ViewDetail(9)">View detail</button>
+                        <button class="edit-btn" onclick="Edit(9)">Edit detail</button>
+                        <button class="clone-btn" onclick="Clone(9)">Clone</button>
+                        <button class="delete-btn" onclick="OpenDeletePopup(9)">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination">
+        <button onclick="ChangePage(1)">â† Previous</button>
+        <button onclick="ChangePage(1)" class="">1</button>
+        <button onclick="ChangePage(2)" class="active">2</button>
+        <button onclick="ChangePage(3)" class="">3</button>
+        <button onclick="ChangePage(3)">Next â†’</button>
+    </div>
+</div>
+
+<div id="ViewDetailPopup" class="modal">
+    <div class="popup popup-overlay">
+        <header>
+            <h2>Detail task</h2>
+            <button class="close-btn" onclick="CloseViewDetailPopup()">
+                &times;
+            </button>
+        </header>
+        <form>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="Title">Title</label>
+                    <p id="ViewTitle"></p>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="Description">Description</label>
+                    <p id="ViewDescription"></p>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="ViewStartDate">StartDate</label>
+                    <p id="ViewStartDate"></p>
+                </div>
+                <div class="form-group">
+                    <label for="ViewEndDate">EndDate</label>
+                    <p id="ViewEndDate"></p>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="ViewStatus">Status</label>
+                    <p id="ViewStatus"></p>
+                </div>
+                <div class="form-group">
+                    <label for="ViewPriority">Priority</label>
+                    <p id="ViewPriority"></p>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="ViewAssignment">Assignment</label>
+                    <p id="ViewAssignment"></p>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="EditTaskPopup" class="modal">
+    <div class="popup popup-overlay">
+        <header>
+            <h2>Edit Task</h2>
+            <button class="close-btn" onclick="CloseEditPopup()">
+                &times;
+            </button>
+        </header>
+        <form id="SaveTaskForm" action="/taskitem/save" method="post">
+            <input hidden type="number" id="Id" name="Id" value="0" />
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="Title">Title <span style="color:red">(*)</span></label>
+                    <input style="width:100%" type="text" id="Title" name="Title" value="">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="Description">Description</label>
+                    <textarea id="Description" name="Description"></textarea>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="StartDate">Start date</label>
+                    <input type="date" id="StartDate" name="StartDate" value="">
+                </div>
+                <div class="form-group">
+                    <label for="EndDate">End date</label>
+                    <input type="date" id="EndDate" name="EndDate" value="">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="AssigneeId">Assignment</label>
+                    <select id="AssigneeId" name="AssigneeId">
+                        <option value="1">Account 1</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="Status">Status</label>
+                    <select id="Status" name="Status">
+                        <option value="1">Pending</option>
+                        <option value="2">InProgress</option>
+                        <option value="3">Finished</option>
+                        <option value="0">Canceled</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="Priority">Priority</label>
+                    <select id="Priority" name="Priority">
+                        <option value="0">Low</option>
+                        <option value="1">Medium</option>
+                        <option value="2">High</option>
+                        <option value="3">Urgent</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+        <footer>
+            <button class="btn-cancel" onclick="CloseEditPopup()">Cancel</button>
+            <button type="submit" form="SaveTaskForm" class="btn-save">Save</button>
+        </footer>
+    </div>
+</div>
+
+
+<div id="DeleteTaskPopup" class="modal">
+    <div class="popup popup-overlay">
+        <header>
+            <h2>Delete Task</h2>
+            <button class="close-btn" onclick="CloseDeletePopup()">
+                &times;
+            </button>
+        </header>
+        <form>
+            <input hidden type="number" id="DeletedId" value="0" />
+            <div class="form-group">
+                <p>Are you sure you want to delete this task?</p>
+            </div>
+        </form>
+        <footer>
+            <button class="btn-cancel" onclick="CloseDeletePopup()">Cancel</button>
+            <button class="btn-delete" onclick="DeleteTask()">Delete</button>
+        </footer>
+    </div>
+</div>
+
+
+<script>
+    ActiveMenu = "Menu_ListTask";
+    var ListTask = [{"Id":18,"Title":"Task 1","Description":"Description 5","StartDate":"2024-11-21T00:00:00","EndDate":"2024-11-23T00:00:00","AssigneeId":1,"Assignee":{"Id":1,"FullName":"System Admin","UserName":"SystemAdmin","Email":"admin@admin.com","Title":"System Admin","Status":1,"Role":1,"CreatedOn":"2024-11-21T09:21:05.096235","ModifiedOn":null,"Deleted":false},"IsCompleted":false,"CreatorId":1,"Creator":{"Id":1,"FullName":"System Admin","UserName":"SystemAdmin","Email":"admin@admin.com","Title":"System Admin","Status":1,"Role":1,"CreatedOn":"2024-11-21T09:21:05.096235","ModifiedOn":null,"Deleted":false},"Priority":1,"Status":1,"CreatedOn":"2024-11-22T02:41:36.089956","ModifiedOn":"2024-11-22T02:42:04.476839"},{"Id":17,"Title":"Task 2","Description":"Description 5","StartDate":"2024-11-21T00:00:00","EndDate":"2024-11-23T00:00:00","AssigneeId":1,"Assignee":{"Id":1,"FullName":"System Admin","UserName":"SystemAdmin","Email":"admin@admin.com","Title":"System Admin","Status":1,"Role":1,"CreatedOn":"2024-11-21T09:21:05.096235","ModifiedOn":null,"Deleted":false},"IsCompleted":false,"CreatorId":1,"Creator":{"Id":1,"FullName":"System Admin","UserName":"SystemAdmin","Email":"admin@admin.com","Title":"System Admin","Status":1,"Role":1,"CreatedOn":"2024-11-21T09:21:05.096235","ModifiedOn":null,"Deleted":false},"Priority":1,"Status":2,"CreatedOn":"2024-11-22T02:41:35.044347","ModifiedOn":"2024-11-22T02:42:17.98854"},{"Id":16,"Title":"Task 3","Description":"Description 5","StartDate":"2024-11-21T00:00:00","EndDate":"2024-11-23T00:00:00","AssigneeId":1,"Assignee":{"Id":1,"FullName":"System Admin","UserName":"SystemAdmin","Email":"admin@admin.com","Title":"System Admin","Status":1,"Role":1,"CreatedOn":"2024-11-21T09:21:05.096235","ModifiedOn":null,"Deleted":false},"IsCompleted":false,"CreatorId":1,"Creator":{"Id":1,"FullName":"System Admin","UserName":"SystemAdmin","Email":"admin@admin.com","Title":"System Admin","Status":1,"Role":1,"CreatedOn":"2024-11-21T09:21:05.096235","ModifiedOn":null,"Deleted":false},"Priority":1,"Status":3,"CreatedOn":"2024-11-22T02:41:33.306765","ModifiedOn":"2024-11-22T02:42:45.502708"},{"Id":15,"Title":"Task 4","Description":"Description 5","StartDate":"2024-11-21T00:00:00","EndDate":"2024-11-23T00:00:00","AssigneeId":1,"Assignee":{"Id":1,"FullName":"System Admin","UserName":"SystemAdmin","Email":"admin@admin.com","Title":"System Admin","Status":1,"Role":1,"CreatedOn":"2024-11-21T09:21:05.096235","ModifiedOn":null,"Deleted":false},"IsCompleted":false,"CreatorId":1,"Creator":{"Id":1,"FullName":"System Admin","UserName":"SystemAdmin","Email":"admin@admin.com","Title":"System Admin","Status":1,"Role":1,"CreatedOn":"2024-11-21T09:21:05.096235","ModifiedOn":null,"Deleted":false},"Priority":1,"Status":0,"CreatedOn":"2024-11-22T02:41:31.842484","ModifiedOn":"2024-11-22T02:43:15.695723"},{"Id":14,"Title":"Task 5","Description":"Description 5","StartDate":"2024-11-21T00:00:00","EndDate":"2024-11-23T00:00:00","AssigneeId":1,"Assignee":{"Id":1,"FullName":"System Admin","UserName":"SystemAdmin","Email":"admin@admin.com","Title":"System Admin","Status":1,"Role":1,"CreatedOn":"2024-11-21T09:21:05.096235","ModifiedOn":null,"Deleted":false},"IsCompleted":false,"CreatorId":1,"Creator":{"Id":1,"FullName":"System Admin","UserName":"SystemAdmin","Email":"admin@admin.com","Title":"System Admin","Status":1,"Role":1,"CreatedOn":"2024-11-21T09:21:05.096235","ModifiedOn":null,"Deleted":false},"Priority":1,"Status":1,"CreatedOn":"2024-11-22T02:41:30.426072","ModifiedOn":"2024-11-22T02:43:24.811808"},{"Id":13,"Title":"Task 6","Description":"Description 5","StartDate":"2024-11-21T00:00:00","EndDate":"2024-11-23T00:00:00","AssigneeId":1,"Assignee":{"Id":1,"FullName":"System Admin","UserName":"SystemAdmin","Email":"admin@admin.com","Title":"System Admin","Status":1,"Role":1,"CreatedOn":"2024-11-21T09:21:05.096235","ModifiedOn":null,"Deleted":false},"IsCompleted":false,"CreatorId":1,"Creator":{"Id":1,"FullName":"System Admin","UserName":"SystemAdmin","Email":"admin@admin.com","Title":"System Admin","Status":1,"Role":1,"CreatedOn":"2024-11-21T09:21:05.096235","ModifiedOn":null,"Deleted":false},"Priority":1,"Status":1,"CreatedOn":"2024-11-22T02:41:29.668617","ModifiedOn":"2024-11-22T02:43:33.669773"},{"Id":12,"Title":"Task 7","Description":"Description 5","StartDate":"2024-11-21T00:00:00","EndDate":"2024-11-23T00:00:00","AssigneeId":1,"Assignee":{"Id":1,"FullName":"System Admin","UserName":"SystemAdmin","Email":"admin@admin.com","Title":"System Admin","Status":1,"Role":1,"CreatedOn":"2024-11-21T09:21:05.096235","ModifiedOn":null,"Deleted":false},"IsCompleted":false,"CreatorId":1,"Creator":{"Id":1,"FullName":"System Admin","UserName":"SystemAdmin","Email":"admin@admin.com","Title":"System Admin","Status":1,"Role":1,"CreatedOn":"2024-11-21T09:21:05.096235","ModifiedOn":null,"Deleted":false},"Priority":1,"Status":1,"CreatedOn":"2024-11-22T02:41:28.452433","ModifiedOn":"2024-11-22T02:43:41.724642"},{"Id":11,"Title":"Task 8","Description":"Description 5","StartDate":"2024-11-21T00:00:00","EndDate":"2024-11-23T00:00:00","AssigneeId":1,"Assignee":{"Id":1,"FullName":"System Admin","UserName":"SystemAdmin","Email":"admin@admin.com","Title":"System Admin","Status":1,"Role":1,"CreatedOn":"2024-11-21T09:21:05.096235","ModifiedOn":null,"Deleted":false},"IsCompleted":false,"CreatorId":1,"Creator":{"Id":1,"FullName":"System Admin","UserName":"SystemAdmin","Email":"admin@admin.com","Title":"System Admin","Status":1,"Role":1,"CreatedOn":"2024-11-21T09:21:05.096235","ModifiedOn":null,"Deleted":false},"Priority":1,"Status":1,"CreatedOn":"2024-11-22T02:41:27.644505","ModifiedOn":"2024-11-22T02:43:49.007564"},{"Id":10,"Title":"Task 9","Description":"Description 5","StartDate":"2024-11-21T00:00:00","EndDate":"2024-11-23T00:00:00","AssigneeId":1,"Assignee":{"Id":1,"FullName":"System Admin","UserName":"SystemAdmin","Email":"admin@admin.com","Title":"System Admin","Status":1,"Role":1,"CreatedOn":"2024-11-21T09:21:05.096235","ModifiedOn":null,"Deleted":false},"IsCompleted":false,"CreatorId":1,"Creator":{"Id":1,"FullName":"System Admin","UserName":"SystemAdmin","Email":"admin@admin.com","Title":"System Admin","Status":1,"Role":1,"CreatedOn":"2024-11-21T09:21:05.096235","ModifiedOn":null,"Deleted":false},"Priority":1,"Status":1,"CreatedOn":"2024-11-22T02:41:26.997011","ModifiedOn":"2024-11-22T02:43:56.684872"},{"Id":9,"Title":"Task 10","Description":"Description 5","StartDate":"2024-11-21T00:00:00","EndDate":"2024-11-23T00:00:00","AssigneeId":1,"Assignee":{"Id":1,"FullName":"System Admin","UserName":"SystemAdmin","Email":"admin@admin.com","Title":"System Admin","Status":1,"Role":1,"CreatedOn":"2024-11-21T09:21:05.096235","ModifiedOn":null,"Deleted":false},"IsCompleted":false,"CreatorId":1,"Creator":{"Id":1,"FullName":"System Admin","UserName":"SystemAdmin","Email":"admin@admin.com","Title":"System Admin","Status":1,"Role":1,"CreatedOn":"2024-11-21T09:21:05.096235","ModifiedOn":null,"Deleted":false},"Priority":1,"Status":1,"CreatedOn":"2024-11-22T02:41:25.19533","ModifiedOn":"2024-11-22T02:44:04.803803"}];
+
+    // submit form tìm kiếm
+    function SearchTaskItem() {
+        document.getElementById("SearchTaskForm").submit();
+    }
+
+    // Hàm khi chọn trang, nút back, next
+    function ChangePage(page) {
+
+        // Lấy URL hiện tại
+        var url = new URL(location.href);
+
+        // Sử dụng URLSearchParams để thay đổi giá trị
+        url.searchParams.set('pageIndex', page);
+
+        // Cập nhật URL trên trình duyệt (nếu cần)
+        location.href = url.toString();
+    }
+
+    // Mã popup xem chi tiết
+    function ViewDetail(id) {
+        // Lấy thông tin task tìm danh sách
+        var task = ListTask.find(t => t.Id == id);
+
+        // set giá trị thông tin task
+        document.getElementById('ViewTitle').innerHTML = task.Title;
+        document.getElementById('ViewDescription').innerHTML = task.Description;
+        document.getElementById('ViewStartDate').innerHTML = new Date(task.StartDate + 'Z').toLocaleDateString();
+        document.getElementById('ViewEndDate').innerHTML = new Date(task.EndDate + 'Z').toLocaleDateString();
+        document.getElementById('ViewAssignment').innerHTML = task.Assignee?.FullName ?? '';
+
+        var taskStatus = '';
+        if (task.Status == 0) {
+            taskStatus = 'Canceled';
+        } else if (task.Status == 2) {
+            taskStatus = 'InProgress';
+        } else if (task.Status == 1) {
+            taskStatus = 'Pending';
+        } else if (task.Status == 3) {
+            taskStatus = 'Finished';
+        }
+
+        document.getElementById('ViewStatus').innerHTML = taskStatus;
+
+        var taskPriority = '';
+        if (task.Priority == 0) {
+            taskPriority = 'Low';
+        } else if (task.Priority == 1) {
+            taskPriority = 'Medium';
+        } else if (task.Priority == 2) {
+            taskPriority = 'High';
+        } else if (task.Priority == 3) {
+            taskPriority = 'Urgent';
+        }
+
+        document.getElementById('ViewPriority').innerHTML = taskPriority;
+
+        document.getElementById('ViewDetailPopup').style.display = 'block';
+    }
+
+    function CloseViewDetailPopup() {
+        document.getElementById('ViewDetailPopup').style.display = 'none';
+    }
+
+    function Edit(id) {
+
+        ClearEditPopup();
+
+        if (id > 0) {
+            // Lấy thông tin user từ danh sách
+            var task = ListTask.find(t => t.Id == id);
+
+            // set giá trị thông tin user
+            document.getElementById('Id').value = task.Id;
+            document.getElementById('Title').value = task.Title;
+            document.getElementById('Description').value = task.Description;
+            document.getElementById('StartDate').valueAsDate = new Date(task.StartDate + 'Z');
+            document.getElementById('EndDate').valueAsDate = new Date(task.EndDate + 'Z');
+            document.getElementById('AssigneeId').value = task.AssigneeId;
+            document.getElementById('Status').value = task.Status;
+            document.getElementById('Priority').value = task.Priority;
+        }
+
+        document.getElementById('EditTaskPopup').style.display = 'block';
+    }
+
+    // xóa đưa giá trị cũ của popup
+    function ClearEditPopup() {
+        document.getElementById('Id').value = 0;
+        document.getElementById('Title').value = '';
+        document.getElementById('Description').value = '';
+        document.getElementById('StartDate').value = '';
+        document.getElementById('EndDate').value = '';
+        document.getElementById('AssigneeId').value = null;
+        document.getElementById('Status').value = 1;
+        document.getElementById('Priority').value = 1;
+    }
+
+    function CloseEditPopup() {
+        document.getElementById('EditTaskPopup').style.display = 'none';
+    }
+
+    function Clone(id) {
+        location.href = "/taskitem/clone/" + id;
+    }
+
+    function OpenDeletePopup(id) {
+        document.getElementById('DeletedId').value = id;
+
+        document.getElementById('DeleteTaskPopup').style.display = 'block';
+    }
+
+    function DeleteTask() {
+        var id = document.getElementById('DeletedId').value;
+        location.href = "/taskitem/delete/" + id;
+    }
+
+    function CloseDeletePopup(id) {
+        document.getElementById('DeleteTaskPopup').style.display = 'none';
+    }
+
+</script>
+
+
