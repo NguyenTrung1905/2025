@@ -15,7 +15,7 @@ builder.Services.AddScoped<IAuthApiService, AuthApiService>();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
-                    options.ExpireTimeSpan = TimeSpan.FromHours(72);
+                    options.ExpireTimeSpan = TimeSpan.FromMinutes(1);
                     options.LoginPath = "/auth/login";
                 });
 

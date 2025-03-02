@@ -37,10 +37,14 @@ namespace _2025.Web.TaskManager.Controllers
 
                 await SignInUser(authenTokenResponse.Data);
 
+                TempData["Message"] = "Login successully!";
+
                 return RedirectToAction("index", "home");
             }
             catch (Exception ex)
             {
+                TempData["Message"] = ex.Message;
+
                 return RedirectToAction("login", "auth");
             }
         }
