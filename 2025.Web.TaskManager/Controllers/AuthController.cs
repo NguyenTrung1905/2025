@@ -51,7 +51,7 @@ namespace _2025.Web.TaskManager.Controllers
 
                 TempData["Message"] = "Login successully!";
 
-                return RedirectToAction("index", "home");
+                return RedirectToAction("list", "taskitem");
             }
             catch (Exception ex)
             {
@@ -59,6 +59,12 @@ namespace _2025.Web.TaskManager.Controllers
 
                 return RedirectToAction("login", "auth");
             }
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("login");
         }
 
         private async Task SignInUser(string jwtToken)
