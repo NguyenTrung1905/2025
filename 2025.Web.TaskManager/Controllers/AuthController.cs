@@ -49,7 +49,13 @@ namespace _2025.Web.TaskManager.Controllers
 
                 await SignInUser(authenTokenResponse.Data);
 
-                TempData["Message"] = "Login successully!";
+                if (model.IsSignUp)
+                {
+                    TempData["Message"] = "Sign up successully!";
+                }
+                else {
+                    TempData["Message"] = "Login successully!";
+                }
 
                 return RedirectToAction("list", "taskitem");
             }
@@ -57,7 +63,15 @@ namespace _2025.Web.TaskManager.Controllers
             {
                 TempData["Message"] = ex.Message;
 
-                return RedirectToAction("login", "auth");
+                if (model.IsSignUp)
+                {
+                    return RedirectToAction("signup", "auth");
+                }
+                else
+                {
+                    return RedirectToAction("login", "auth");
+
+                }
             }
         }
 
