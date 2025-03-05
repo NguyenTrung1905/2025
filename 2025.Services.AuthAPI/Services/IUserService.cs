@@ -1,9 +1,11 @@
 ﻿using _2025.Services.AuthAPI.Core;
 using _2025.Services.AuthAPI.Core.Entities;
 using _2025.Services.AuthAPI.Core.Helper;
+using _2025.Services.AuthAPI.DTO;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using static _2025.Services.AuthAPI.Core.Constants.MessageConstant;
 
 namespace _2025.Services.AuthAPI.Services
@@ -13,10 +15,26 @@ namespace _2025.Services.AuthAPI.Services
         Task<User> GetByEmail(string email);
         User SetPassword(User user, string password);
         byte[] CombineSaltAndPassword(byte[] saltBytes, string password);
+        Task<User> SignUp(LogonDTO model);
     }
 
     public class UserService : IUserService
     {
+        // Chỉ chứa chữ cái (a-z, A-Z), số (0-9) và dấu gạch dưới (_).
+        // Độ dài từ 3 đến 30 ký tự.
+        // Không bắt đầu hoặc kết thúc bởi dấu gạch duới (_).
+        public const string UserNamePattern = @"^(?=.{3,30}$)(?![_])[a-zA-Z0-9_]+(?<![_])$";
+
+        // Bắt đầu bằng một hoặc nhiều chữ cái, chữ số hoặc các ký tự đặc biệt như . và _.
+        // Có một ký tự @ để phân cách giữa tên đăng nhập và tên miền.
+        // Tên miền phải chứa ít nhất một dấu chấm (.)
+        // Phần mở rộng tên miền có thể là 2 đến 4 ký tự (ví dụ: com, net, info,...).
+        public const string EmailPattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$";
+
+        // Độ dài từ 8 đến 20 ký tự.
+        // Có ít nhất một chữ cái viết thường, một chữ cái viết hoa, một số và một ký tự đặc biệt.
+        public const string PasswordPattern = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$";
+
         private IdentityContext _identityContext;
 
         public UserService(IdentityContext identityContext)
@@ -58,22 +76,82 @@ namespace _2025.Services.AuthAPI.Services
             return saltBytes.Concat(passwordBytes).ToArray();
         }
 
-        public Task<User> GetByEmail(string email)
+        public async Task<User> GetByEmail(string email)
         {
             if (string.IsNullOrWhiteSpace(email))
             {
                 throw new ApplicationException(CommonMessage.MISSING_PARAM);
             }
 
-            //Kiểm tra _identityContext có null hay không
-            if (_identityContext == null)
-            {
-                throw new ApplicationException("Identity context is not initialized.");
-            }
-
             email = email.Trim().ToLower();
 
-            return _identityContext.Users.FirstOrDefaultAsync(t=> t.Email.ToLower() == email && !t.Delete && t.Status == Core.Enum.UserStatusEnum.Active);
+            return await _identityContext.Users.FirstOrDefaultAsync(t=> t.Email.ToLower() == email && !t.Delete && t.Status == Core.Enum.UserStatusEnum.Active);
+        }
+
+        public async Task<User> SignUp(LogonDTO model)
+        {
+            if(model.Password != model.ConfirmPassword)
+            {
+                throw new ApplicationException(UserMessage.CONFIRM_PASSWORD_NOT_CORRECT);
+            }
+            
+            ValidateUserInfo(model.UserName, model.Email, model.Password);
+
+            if(await _identityContext.Users.AnyAsync(t => t.UserName.ToLower() == model.UserName.ToLower() && !t.Delete))
+            {
+                throw new ApplicationException(UserMessage.USERNAME_EXIST);
+            }
+
+            if (await _identityContext.Users.AnyAsync(t => t.Email.ToLower() == model.Email.ToLower() && !t.Delete))
+            {
+                throw new ApplicationException(UserMessage.EMAIL_EXIST);
+            }
+
+            var user = new User
+            {
+                Id = 0,
+                UserName = model.UserName,
+                Email = model.Email,
+                Role = Core.Enum.RoleEnum.User,
+                Status = Core.Enum.UserStatusEnum.Active,
+                CreatedOn = DateTime.UtcNow,
+                Delete = false,
+            };
+
+            user = SetPassword(user, model.Password);
+
+            await _identityContext.Users.AddAsync(user);
+            await _identityContext.SaveChangesAsync();
+
+            return user;
+        }
+
+        private void ValidateUserInfo(string userName, string email, string password)
+        {
+            if (string.IsNullOrWhiteSpace(userName))
+            {
+                throw new ApplicationException(UserMessage.USERNAME_REQUIRED);
+            }
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                throw new ApplicationException(UserMessage.EMAIL_REQUIRED);
+            }
+            if (string.IsNullOrWhiteSpace(password))
+            {
+                throw new ApplicationException(UserMessage.PASSWORD_REQUIRED);
+            }
+            if (!Regex.IsMatch(userName, UserNamePattern))
+            {
+                throw new ApplicationException(UserMessage.INVALIDID_USERNAME);
+            }
+            if (!Regex.IsMatch(email, EmailPattern))
+            {
+                throw new ApplicationException(UserMessage.INVALIDID_EMAIL);
+            }
+            if (!Regex.IsMatch(password, PasswordPattern))
+            {
+                throw new ApplicationException(UserMessage.INVALIDID_PASSWORD);
+            }
         }
     }   
 }

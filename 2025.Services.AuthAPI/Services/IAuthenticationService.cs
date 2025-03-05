@@ -30,7 +30,17 @@ namespace _2025.Services.AuthAPI.Services
 
         public async Task<string> Logon(LogonDTO model)
         {
-            var user = await _userService.GetByEmail(model.Email);
+            User user = null;
+
+            if (model.IsSignUp)
+            {
+                user = await _userService.SignUp(model);
+            }
+            else
+            {
+                user = await _userService.GetByEmail(model.Email);
+
+            }
 
             if (user == null)
             {
@@ -45,9 +55,12 @@ namespace _2025.Services.AuthAPI.Services
                 throw new ApplicationException(UserMessage.LOGIN_FAIL);
             }
 
-            var authenToken = GenerateJwtToken(user);
-
-            return authenToken;
+            if(user != null)
+            {
+                var authenToken = GenerateJwtToken(user);
+                return authenToken;
+            }
+            return string.Empty;
         }
 
         private string GenerateJwtToken(User user)
