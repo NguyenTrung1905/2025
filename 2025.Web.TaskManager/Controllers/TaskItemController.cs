@@ -2,7 +2,7 @@
 
 namespace _2025.Web.TaskManager.Controllers
 {
-    public class TaskItemController : Controller
+    public class TaskItemController : BaseController
     {
         public IActionResult List()
         {
