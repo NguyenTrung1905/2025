@@ -26,18 +26,21 @@
         <p style="width: 100%; text-align: center; margin-top: 16px;">Don't have an account? <a href="/auth/signup">Sign up</a></p>
 
     </div>
+
+    <script src="../js/toastify-js.js"></script>
+
+    @if (!string.IsNullOrWhiteSpace(TempData["Message"]?.ToString()))
+    {
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var message = "@Html.Raw(TempData["Message"])";
+                Toastify({
+                    text: message,
+                    className: "danger",
+                    duration: 3000
+                }).showToast();
+            });
+        </script>
+    }
 </body>
-
-<script src="../js/toastify-js.js"></script>
-
-@if (!string.IsNullOrWhiteSpace(TempData["Message"]?.ToString())){
-	<script>
-		Toastify({
-			text: "@TempData["Message"]".toString())",
-				className: "danger"
-			}).showToast();
-	</script>
-}
-
-
 </html>

@@ -58,8 +58,10 @@ namespace _2025.Services.AuthAPI.Services
             if(user != null)
             {
                 var authenToken = GenerateJwtToken(user);
+
                 return authenToken;
             }
+
             return string.Empty;
         }
 

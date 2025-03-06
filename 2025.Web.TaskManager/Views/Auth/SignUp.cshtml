@@ -1,6 +1,5 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,25 +7,24 @@
     <link href="../css/register.css" rel="stylesheet" />
     <link href="../css/toastify.min.css" rel="stylesheet" />
 </head>
-
 <body>
     <div class="signup-container">
         <h2>Create an account</h2>
         <form action="/auth/login" method="post">
             <input hidden type="checkbox" id="IsSignUp" name="IsSignUp" checked value="true">
 
-            <label for="username">User name  <span style="color:red">(*)</span></label>
+            <label for="username">User name <span style="color:red">(*)</span></label>
             <input type="text" id="UserName" name="UserName" placeholder="UserName" required>
 
-            <label for="Email">Email address  <span style="color:red">(*)</span></label>
+            <label for="Email">Email address <span style="color:red">(*)</span></label>
             <input type="email" id="Email" name="Email" placeholder="Enter your email" required>
 
-            <label for="Password">Password  <span style="color:red">(*)</span></label>
+            <label for="Password">Password <span style="color:red">(*)</span></label>
             <div class="password-container">
                 <input type="password" id="Password" name="Password" placeholder="Password" required>
             </div>
 
-            <label for="ConfirmPassword">Confirm password  <span style="color:red">(*)</span></label>
+            <label for="ConfirmPassword">Confirm password <span style="color:red">(*)</span></label>
             <div class="password-container">
                 <input type="password" id="ConfirmPassword" name="ConfirmPassword" placeholder="Confirm password" required>
             </div>
@@ -35,21 +33,22 @@
         </form>
 
         <p style="width: 100%; text-align: center; margin-top: 16px;">Already have an account? <a href="/auth/login">Login</a></p>
-
     </div>
 
+    <script src="../js/toastify-js.js"></script>
+
+    @if (!string.IsNullOrWhiteSpace(TempData["Message"]?.ToString()))
+    {
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var message = "@Html.Raw(TempData["Message"])";
+                Toastify({
+                    text: message,
+                    className: "danger",
+                    duration: 3000
+                }).showToast();
+            });
+        </script>
+    }
 </body>
-
-<script src="../js/toastify-js.js"></script>
-
-@if (!string.IsNullOrWhiteSpace(TempData["Message"]?.ToString()))
-{
-    <script>
-        Toastify({
-            text: "@TempData["Message"]".toString())",
-                className: "danger"
-            }).showToast();
-    </script>
-}
-
 </html>
