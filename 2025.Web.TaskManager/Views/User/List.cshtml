@@ -185,4 +185,100 @@
 </div>
 
 <script>
+    ActiveMenu = "Menu_ListUser";
+    var ListUser = [{"Id":21,"FullName":"Full Name","UserName":"SystemAdmin","Email":"email@gmail.com","Title":"Full Name","Status":1,"Role":1,"CreatedOn":"2024-11-21T09:21:05.096235","ModifiedOn":null,"Deleted":false},{"Id":22,"FullName":"Full Name","UserName":"SystemAdmin","Email":"email@gmail.com","Title":"Full Name","Status":1,"Role":1,"CreatedOn":"2024-11-21T09:21:05.096235","ModifiedOn":null,"Deleted":false},{"Id":23,"FullName":"Full Name","UserName":"SystemAdmin","Email":"email@gmail.com","Title":"Full Name","Status":1,"Role":1,"CreatedOn":"2024-11-21T09:21:05.096235","ModifiedOn":null,"Deleted":false},{"Id":24,"FullName":"Full Name","UserName":"SystemAdmin","Email":"email@gmail.com","Title":"Full Name","Status":1,"Role":1,"CreatedOn":"2024-11-21T09:21:05.096235","ModifiedOn":null,"Deleted":false},{"Id":25,"FullName":"Full Name","UserName":"SystemAdmin","Email":"email@gmail.com","Title":"Full Name","Status":1,"Role":1,"CreatedOn":"2024-11-21T09:21:05.096235","ModifiedOn":null,"Deleted":false},{"Id":26,"FullName":"Full Name","UserName":"SystemAdmin","Email":"email@gmail.com","Title":"Full Name","Status":1,"Role":1,"CreatedOn":"2024-11-21T09:21:05.096235","ModifiedOn":null,"Deleted":false},{"Id":27,"FullName":"Full Name","UserName":"SystemAdmin","Email":"email@gmail.com","Title":"Full Name","Status":1,"Role":1,"CreatedOn":"2024-11-21T09:21:05.096235","ModifiedOn":null,"Deleted":false},{"Id":28,"FullName":"Full Name","UserName":"SystemAdmin","Email":"email@gmail.com","Title":"Full Name","Status":1,"Role":1,"CreatedOn":"2024-11-21T09:21:05.096235","ModifiedOn":null,"Deleted":false},{"Id":29,"FullName":"Full Name","UserName":"SystemAdmin","Email":"email@gmail.com","Title":"Full Name","Status":1,"Role":1,"CreatedOn":"2024-11-21T09:21:05.096235","ModifiedOn":null,"Deleted":false},{"Id":30,"FullName":"Full Name","UserName":"SystemAdmin","Email":"email@gmail.com","Title":"Full Name","Status":1,"Role":1,"CreatedOn":"2024-11-21T09:21:05.096235","ModifiedOn":null,"Deleted":false}];
 
+    // submit form tìm kiếm
+    function SearchUser() {
+        document.getElementById("SearchUserForm").submit();
+    }
+
+    // hàm khi chọn trang, nút back, next
+    function ChangePage(page) {
+
+        // Lấy URL hiện tại
+        var url = new URL(location.href);
+
+        // Sử dụng URLSearchParams để thay đổi giá trị
+        url.searchParams.set('pageIndex', page);
+
+        // Cập nhật URL trên trình duyệt (nếu cần)
+        location.href = url.toString();
+    }
+
+    function UserDetail(id) {
+        // đặt tên cho popup
+        if (id == 0) {
+            document.getElementById('PopupTitle').innerHTML = "Add User";
+        } else {
+            document.getElementById('PopupTitle').innerHTML = "Edit User";
+        }
+
+        ClearPopup()
+
+        if (id > 0) {
+            // lấy thông tin user từ danh sách
+            var user = ListUser.find(t => t.Id == id);
+
+            // set giá trị thông tin user
+            document.getElementById('Id').value = user.Id;
+            document.getElementById('FullName').value = user.FullName;
+            document.getElementById('UserName').value = user.UserName;
+            document.getElementById('Email').value = user.Email;
+            document.getElementById('Title').value = user.Title;
+            document.getElementById('Status').value = user.Status;
+            document.getElementById('Role').value = user.Role;
+        } else {
+            // hiển thị ô nhập mật khẩu khi tạo user
+            document.getElementById('PasswordSection').style.display = 'block';
+        }
+
+        OpenPopup();
+    }
+
+    // xóa đưa giá trị cũ của popup
+    function ClearPopup() {
+        document.getElementById('Id').value = 0;
+        document.getElementById('FullName').value = '';
+        document.getElementById('UserName').value = '';
+        document.getElementById('Password').value = '';
+        document.getElementById('Email').value = '';
+        document.getElementById('Title').value = '';
+        document.getElementById('Status').value = 1;
+        document.getElementById('Role').value = 0;
+
+        document.getElementById('PasswordSection').style.display = 'none';
+    }
+
+    function ClosePopup() {
+        document.getElementById('UserPopup').style.display = 'none';
+    }
+
+    // mở popup
+    function OpenPopup() {
+        document.getElementById('UserPopup').style.display = 'block';
+    }
+
+    // // Đóng popup khi click ra bên ngoài popup
+    // window.onclick = function (event) {
+    //     if (event.target == document.getElementById("UserPopup")) {
+    //         ClosePopup();
+    //     }
+    // }
+
+</script>
+
+    </div>
+
+<script>
+    // bỏ trạng thái active của tất cả menu item
+    var menuItems = document.getElementsByClassName("menu-item");
+
+    for (var i = 0; i < menuItems.length; i++) {
+        menuItems[i].classList.remove("active");
+    }
+
+    // thêm trạng thái active ở trang hiện tại
+    document.getElementById(ActiveMenu).classList.add("active");
+
+</script>
