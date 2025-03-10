@@ -17,6 +17,7 @@ namespace _2025.Services.AuthAPI.Services
         byte[] CombineSaltAndPassword(byte[] saltBytes, string password);
         Task<User> SignUp(LogonDTO model);
         Task<bool> Add(AddUserDTO model);
+        Task<bool> Update(UpdateUserDTO model);
     }
 
     public class UserService : IUserService
@@ -127,7 +128,7 @@ namespace _2025.Services.AuthAPI.Services
             return user;
         }
 
-        private void ValidateUserInfo(string userName, string email, string password)
+        private void ValidateUserInfo(string userName, string email)
         {
             if (string.IsNullOrWhiteSpace(userName))
             {
@@ -137,10 +138,6 @@ namespace _2025.Services.AuthAPI.Services
             {
                 throw new ApplicationException(UserMessage.EMAIL_REQUIRED);
             }
-            if (string.IsNullOrWhiteSpace(password))
-            {
-                throw new ApplicationException(UserMessage.PASSWORD_REQUIRED);
-            }
             if (!Regex.IsMatch(userName, UserNamePattern))
             {
                 throw new ApplicationException(UserMessage.INVALIDID_USERNAME);
@@ -148,6 +145,16 @@ namespace _2025.Services.AuthAPI.Services
             if (!Regex.IsMatch(email, EmailPattern))
             {
                 throw new ApplicationException(UserMessage.INVALIDID_EMAIL);
+            }
+        }
+
+        private void ValidateUserInfo(string userName, string email, string password)
+        {
+            ValidateUserInfo(userName, email);
+
+            if (string.IsNullOrWhiteSpace(password))
+            {
+                throw new ApplicationException(UserMessage.PASSWORD_REQUIRED);
             }
             if (!Regex.IsMatch(password, PasswordPattern))
             {
@@ -185,6 +192,40 @@ namespace _2025.Services.AuthAPI.Services
             user = SetPassword(user, model.Password);
 
             await _identityContext.Users.AddAsync(user);
+            await _identityContext.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<bool> Update(UpdateUserDTO model)
+        {
+            var user = await _identityContext.Users.FirstOrDefaultAsync(t => t.Id == model.Id && !t.Delete);
+
+            if (user == null) {
+                throw new ApplicationException(CommonMessage.NOT_FOUND);
+            }
+
+            ValidateUserInfo(model.UserName, model.Email);
+
+            if (await _identityContext.Users.AnyAsync(t => t.UserName.ToLower() == model.UserName.ToLower() && t.Id != model.Id && !t.Delete))
+            {
+                throw new ApplicationException(UserMessage.USERNAME_EXIST);
+            }
+
+            if (await _identityContext.Users.AnyAsync(t => t.Email.ToLower() == model.Email.ToLower() && t.Id != model.Id && !t.Delete))
+            {
+                throw new ApplicationException(UserMessage.EMAIL_EXIST);
+            }
+
+            user.UserName = model.UserName;
+            user.Email = model.Email;
+            user.FullName = model.FullName;
+            user.Title = model.Title;
+            user.Role = model.Role;
+            user.Status = model.Status;
+            user.ModifiedOn = DateTime.UtcNow;
+
+            _identityContext.Users.Update(user);
             await _identityContext.SaveChangesAsync();
 
             return true;

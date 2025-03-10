@@ -21,5 +21,11 @@ namespace _2025.Services.AuthAPI.Controllers
         {
             return await HandleException(_userService.Add(model));
         }
+
+        [HttpPost("update")]
+        public async Task<ResponseDataDTO<bool>> Update([FromBody] UpdateUserDTO model)
+        {
+            return await HandleException(_userService.Update(model));
+        }
     }
 }
