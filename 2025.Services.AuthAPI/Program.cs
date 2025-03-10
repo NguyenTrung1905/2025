@@ -18,7 +18,6 @@ builder.Services.AddDbContextPool<IdentityContext>(options =>
 
 // Add services to the container.
 builder.Services.AddSingleton<AppSettings>();
-builder.Services.AddScoped<IHelloService, HelloService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IInitService, InitService>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();

@@ -16,6 +16,7 @@ namespace _2025.Services.AuthAPI.Services
         User SetPassword(User user, string password);
         byte[] CombineSaltAndPassword(byte[] saltBytes, string password);
         Task<User> SignUp(LogonDTO model);
+        Task<bool> Add(AddUserDTO model);
     }
 
     public class UserService : IUserService
@@ -152,6 +153,41 @@ namespace _2025.Services.AuthAPI.Services
             {
                 throw new ApplicationException(UserMessage.INVALIDID_PASSWORD);
             }
+        }
+
+        public async Task<bool> Add(AddUserDTO model)
+        {
+            ValidateUserInfo(model.UserName, model.Email, model.Password);
+
+            if (await _identityContext.Users.AnyAsync(t => t.UserName.ToLower() == model.UserName.ToLower() && !t.Delete))
+            {
+                throw new ApplicationException(UserMessage.USERNAME_EXIST);
+            }
+
+            if (await _identityContext.Users.AnyAsync(t => t.Email.ToLower() == model.Email.ToLower() && !t.Delete))
+            {
+                throw new ApplicationException(UserMessage.EMAIL_EXIST);
+            }
+
+            var user = new User
+            {
+                Id = 0,
+                UserName = model.UserName,
+                Email = model.Email,
+                Role = Core.Enum.RoleEnum.User,
+                Status = Core.Enum.UserStatusEnum.Active,
+                CreatedOn = DateTime.UtcNow,
+                Delete = false,
+                FullName = model.FullName,
+                Title = model.Title,
+            };
+
+            user = SetPassword(user, model.Password);
+
+            await _identityContext.Users.AddAsync(user);
+            await _identityContext.SaveChangesAsync();
+
+            return true;
         }
     }   
 }
