@@ -29,4 +29,10 @@ public partial class User
     public DateTime? ModifiedOn { get; set; }
 
     public bool Delete { get; set; }
+
+    public void HideSecretInformation()
+    {
+        Password = null;
+        PasswordSalt = null;
+    }
 }

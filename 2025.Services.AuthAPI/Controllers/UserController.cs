@@ -1,4 +1,5 @@
-﻿using _2025.Services.AuthAPI.DTO;
+﻿using _2025.Services.AuthAPI.Core.Entities;
+using _2025.Services.AuthAPI.DTO;
 using _2025.Services.AuthAPI.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -26,6 +27,16 @@ namespace _2025.Services.AuthAPI.Controllers
         public async Task<ResponseDataDTO<bool>> Update([FromBody] UpdateUserDTO model)
         {
             return await HandleException(_userService.Update(model));
+        }
+
+        [HttpGet("Search")]
+        public async Task<ResponseDataDTO<List<User>>> Search([FromQuery] BaseSearchDTO model)
+        {
+            var result = await HandleException(_userService.Search(model));
+
+            result.metaData = new MetaData() { PageIndex = model.PageIndex, PageSize = model.PageSize, Total =model.Total };
+
+            return result;
         }
     }
 }

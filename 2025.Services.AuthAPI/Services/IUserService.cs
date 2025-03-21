@@ -18,6 +18,7 @@ namespace _2025.Services.AuthAPI.Services
         Task<User> SignUp(LogonDTO model);
         Task<bool> Add(AddUserDTO model);
         Task<bool> Update(UpdateUserDTO model);
+        Task<List<User>> Search(BaseSearchDTO model);
     }
 
     public class UserService : IUserService
@@ -229,6 +230,36 @@ namespace _2025.Services.AuthAPI.Services
             await _identityContext.SaveChangesAsync();
 
             return true;
+        }
+
+        public async Task<List<User>> Search(BaseSearchDTO model)
+        {
+            var data = _identityContext.Users.AsNoTracking().OrderBy(t=>t.FullName).Where(t => !t.Delete);
+
+            if (!string.IsNullOrWhiteSpace(model.Keyword))
+            {
+                model.Keyword = model.Keyword.Trim().ToLower();
+
+                data = data.Where(t => t.UserName.ToLower().Contains(model.Keyword) || t.Email.ToLower().Contains(model.Keyword) ||
+                                    (t.FullName != null && t.FullName.ToLower().Contains(model.Keyword)) ||
+                                    (t.Title != null && t.Title.ToLower().Contains(model.Keyword)));
+            }
+
+            model.Total = await data.CountAsync();
+
+            if(model.PageSize > 0)
+            {
+                data = data.Skip(model.Skip).Take(model.PageSize);
+            }
+
+            var result = await data.ToListAsync();
+
+            foreach (var item in result)
+            {
+                item.HideSecretInformation();
+            }
+
+            return result;
         }
     }   
 }
